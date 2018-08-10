@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import Clarifai from 'clarifai';
 import Particles from 'react-particles-js';
-import Navigation from './components/Navigation';
 import Logo from './components/Logo.js';
+import SignIn from './components/SignIn';
+import Register from './components/Register'
+import Navigation from './components/Navigation';
 import Rank from './components/Rank.js';
 import ImageLinkForm from './components/ImageLinkForm';
 import FacialRecognition from './components/FacialRecognition';
@@ -30,7 +32,19 @@ class App extends Component {
     this.state = {
       input: '',
       imageUrl: '',
+      box: {},
+      route: 'signIn',
+      isSignedIn: false
     }
+  }
+
+  handleRouteChange = (route) => {
+    if (route === 'signIn') {
+      this.setState({isSignedIn: false})
+    } else if (route === 'home') {
+      this.setState({isSignedIn: true})
+    }
+    this.setState({ route: route });
   }
 
   handleChange = (e) => {
@@ -40,17 +54,29 @@ class App extends Component {
   handleSubmit = () => {
     this.setState({ imageUrl: this.state.input});
     app.models
-      .predict(
+    .predict(
       Clarifai.FACE_DETECT_MODEL,
-        this.state.input)
-      .then(
-      function(response) {
-        console.log(response.outputs[0].data.regions[0].region_info.bounding_box);
-      },
-      function(err) {
-        console.log(err);
-      }
-    );
+      this.state.input)
+      .then(response => this.displayFacialOutline(this.calculateFaceLocation(response)))
+      .catch(err => console.log(err));
+    }
+
+  calculateFaceLocation = (data) => {
+    const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
+    const image = document.getElementById('input-image');
+    const width = Number(image.width);
+    const height = Number(image.height)
+    return {
+      leftCol: clarifaiFace.left_col * width,
+      topRow: clarifaiFace.top_row * height,
+      rightCol: width - (clarifaiFace.right_col * width),
+      bottomRow: height - (clarifaiFace.bottom_row * height),
+    }
+  }
+
+  displayFacialOutline = (box) => {
+    console.log(box);
+    this.setState({ box: box})
   }
 
   render() {
@@ -59,18 +85,28 @@ class App extends Component {
         <Particles className='particles'
           params={particlesOptions}
         />
-        <header>
-          <Navigation />
-          <Logo />
-        </header>
-        <Rank />
-        <ImageLinkForm
-          handleChange={this.handleChange}
-          handleSubmit={this.handleSubmit}
-        />
-        <FacialRecognition
-          imageUrl={this.state.imageUrl}
-        />
+        <Navigation handleRouteChange={this.handleRouteChange} isSignedIn={this.state.isSignedIn} />
+        <Logo />
+        {
+          this.state.route === 'home' ?
+          <div>
+            <Rank />
+            <ImageLinkForm
+              handleChange={this.handleChange}
+              handleSubmit={this.handleSubmit}
+            />
+            <FacialRecognition
+              imageUrl={this.state.imageUrl}
+              box={this.state.box}
+            />
+          </div>
+          : (
+            this.state.route === 'signIn' ?
+              <SignIn handleRouteChange={this.handleRouteChange} />
+            :
+              <Register handleRouteChange={this.handleRouteChange} />
+          )
+        }
       </div>
     );
   }
