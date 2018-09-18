@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Clarifai from 'clarifai';
 import Particles from 'react-particles-js';
 import Logo from './components/Logo.js';
 import SignIn from './components/SignIn';
@@ -10,10 +9,7 @@ import ImageLinkForm from './components/ImageLinkForm';
 import FacialRecognition from './components/FacialRecognition';
 import './App.css';
 
-const app = new Clarifai.App({
- apiKey: '60396a7ead6f47528a232c65767e9cd7'
-});
-
+// say something about config particles
 const particlesOptions = {
   particles: {
     number: {
@@ -26,21 +22,41 @@ const particlesOptions = {
   }
 };
 
+//object used to clear state upon sign out
+const initialState = {
+  input: '',
+  imageUrl: '',
+  box: {},
+  route: 'signIn',
+  isSignedIn: false,
+  user: {
+    id: '',
+    name: '',
+    email: '',
+    entries: 0,
+    joined: ''
+  }
+}
+
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      input: '',
-      imageUrl: '',
-      box: {},
-      route: 'signIn',
-      isSignedIn: false
-    }
+    this.state = initialState
+  }
+
+  loadUser = (data) => {
+    this.setState({user: {
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      entries: data.entries,
+      joined: data.joined
+    }})
   }
 
   handleRouteChange = (route) => {
     if (route === 'signIn') {
-      this.setState({isSignedIn: false})
+      this.setState(initialState)
     } else if (route === 'home') {
       this.setState({isSignedIn: true})
     }
@@ -51,15 +67,35 @@ class App extends Component {
     this.setState({ input: e.target.value });
   }
 
-  handleSubmit = () => {
+  handlePictureSubmit = () => {
     this.setState({ imageUrl: this.state.input});
-    app.models
-    .predict(
-      Clarifai.FACE_DETECT_MODEL,
-      this.state.input)
-      .then(response => this.displayFacialOutline(this.calculateFaceLocation(response)))
-      .catch(err => console.log(err));
-    }
+      fetch('https://cryptic-falls-77467.herokuapp.com/imageUrl', {
+        method: 'post',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          input: this.state.input
+        })
+      })
+      .then(response => response.json())
+      .then(response => {
+        if (response) {
+          fetch('https://cryptic-falls-77467.herokuapp.com/image', {
+            method: 'put',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              id: this.state.user.id
+            })
+          })
+            .then(response => response.json())
+            .then(count => {
+              this.setState(Object.assign(this.state.user, { entries: count }))
+            })
+            .catch(console.log)
+        }
+        this.displayFacialOutline(this.calculateFaceLocation(response))
+      })
+      .catch(err => console.log(err))
+  }
 
   calculateFaceLocation = (data) => {
     const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
@@ -75,25 +111,30 @@ class App extends Component {
   }
 
   displayFacialOutline = (box) => {
-    console.log(box);
     this.setState({ box: box})
   }
 
   render() {
     return (
       <div className="App">
-        <Particles className='particles'
+        <Particles
+          className='particles'
           params={particlesOptions}
         />
-        <Navigation handleRouteChange={this.handleRouteChange} isSignedIn={this.state.isSignedIn} />
+        <Navigation
+          handleRouteChange={this.handleRouteChange}
+          isSignedIn={this.state.isSignedIn}
+        />
         <Logo />
         {
           this.state.route === 'home' ?
           <div>
-            <Rank />
+            <Rank
+              name={this.state.user.name}
+              entries={this.state.user.entries} />
             <ImageLinkForm
               handleChange={this.handleChange}
-              handleSubmit={this.handleSubmit}
+              handleSubmit={this.handlePictureSubmit}
             />
             <FacialRecognition
               imageUrl={this.state.imageUrl}
@@ -102,9 +143,9 @@ class App extends Component {
           </div>
           : (
             this.state.route === 'signIn' ?
-              <SignIn handleRouteChange={this.handleRouteChange} />
+              <SignIn loadUser={this.loadUser} handleRouteChange={this.handleRouteChange} />
             :
-              <Register handleRouteChange={this.handleRouteChange} />
+              <Register loadUser={this.loadUser} handleRouteChange={this.handleRouteChange} />
           )
         }
       </div>
