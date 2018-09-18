@@ -1,5 +1,6 @@
 import React from 'react';
-import '../style/ImageLinkForm.css'
+import '../style/ImageLinkForm.css';
+import 'tachyons';
 
 const ImageLinkForm = ({ handleChange, handleSubmit }) => {
   return (

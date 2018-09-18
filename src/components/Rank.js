@@ -1,4 +1,5 @@
 import React from 'react';
+import 'tachyons';
 
 const Rank = ({name, entries}) => {
   return (

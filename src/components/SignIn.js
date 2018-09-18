@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import 'tachyons';
 
 class SignIn extends Component {
   constructor(props) {
