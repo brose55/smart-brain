@@ -22,11 +22,10 @@ const particlesOptions = {
   }
 };
 
-//object used to clear state upon sign out
 const initialState = {
   input: '',
   imageUrl: '',
-  box: {},
+  boxes: [],
   route: 'signIn',
   isSignedIn: false,
   user: {
@@ -92,26 +91,28 @@ class App extends Component {
             })
             .catch(console.log)
         }
-        this.displayFacialOutline(this.calculateFaceLocation(response))
+        this.displayFacialOutline(this.calculateFaceLocations(response))
       })
       .catch(err => console.log(err))
   }
 
-  calculateFaceLocation = (data) => {
-    const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
-    const image = document.getElementById('input-image');
-    const width = Number(image.width);
-    const height = Number(image.height)
-    return {
-      leftCol: clarifaiFace.left_col * width,
-      topRow: clarifaiFace.top_row * height,
-      rightCol: width - (clarifaiFace.right_col * width),
-      bottomRow: height - (clarifaiFace.bottom_row * height),
-    }
+  calculateFaceLocations = (data) => {
+    return data.outputs[0].data.regions.map(face => {
+			const clarifaiFace = face.region_info.bounding_box;
+			const image = document.getElementById('input-image');
+			const width = Number(image.width);
+			const height = Number(image.height)
+			return {
+				leftCol: clarifaiFace.left_col * width,
+				topRow: clarifaiFace.top_row * height,
+				rightCol: width - (clarifaiFace.right_col * width),
+				bottomRow: height - (clarifaiFace.bottom_row * height),
+			}
+		});
   }
 
-  displayFacialOutline = (box) => {
-    this.setState({ box: box})
+  displayFacialOutline = (boxes) => {
+    this.setState({ boxes: boxes})
   }
 
   render() {
@@ -138,7 +139,7 @@ class App extends Component {
             />
             <FacialRecognition
               imageUrl={this.state.imageUrl}
-              box={this.state.box}
+              boxes={this.state.boxes}
             />
           </div>
           : (
