@@ -2,6 +2,16 @@
   text-align: center;
 }
 
+.header {
+	display: flex;
+	justify-content: space-between;
+}
+
+.logo {
+	width: 9vw;
+	height: 9vw;
+}
+
 .center {
   display: flex;
   justify-content: center;
@@ -18,4 +28,32 @@ button {
   bottom: 0;
   left: 0;
   z-index: -1;
+}
+
+
+@media screen and (max-width: 800px) {
+	.logo {
+		width: 12vw;
+		height: 12vw;
+	}
+	.f3 {
+		font-size: 1.3rem;
+	}
+}
+
+@media screen and (max-width: 650px) {
+	.logo {
+		width: 14vw;
+		height: 14vw;
+	}
+}
+
+@media screen and (max-width: 450px) {
+	.logo {
+		width: 19vw;
+		height: 19vw;
+	}
+	.f3 {
+		font-size: 1rem;
+	}
 }

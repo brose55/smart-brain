@@ -5,10 +5,10 @@ import '../style/Logo.css';
 
 const Logo = () => {
   return (
-    <div className='ma4 mt0'>
-      <Tilt className="Tilt br2 shadow-2" options={{ max : 55}} style={{ height: 125, width: 125}} >
+    <div className='ma4'>
+      <Tilt className="Tilt br2 shadow-2 logo" options={{ max : 55}}>
         <div className="Tilt-inner pa3">
-          <img src={brain} alt='logo' style={{paddingTop: '5px'}} />
+          <img src={brain} alt='logo' />
         </div>
       </Tilt>
     </div>
