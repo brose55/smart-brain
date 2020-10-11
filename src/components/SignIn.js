@@ -18,7 +18,8 @@ class SignIn extends Component {
     this.setState({signInPassword: event.target.value})
   }
 
-  handleSignInSubmit = () => {
+  handleSignInSubmit = (event) => {
+    event.preventDefault();
     fetch('https://cryptic-falls-77467.herokuapp.com/signin', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
@@ -42,6 +43,8 @@ class SignIn extends Component {
       <article className="br3 ba b--black-10 mmv4 w-100 w-50-m w-25-1 mw6 shadow-5 center">
         <main className="pa4 black-80">
           <div className="measure">
+            <form onSubmit={this.handleSignInSubmit}>
+
             <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
               <legend className="f1 fw6 ph0 mh0">Sign In</legend>
               <div className="email mt3">
@@ -70,9 +73,9 @@ class SignIn extends Component {
                 className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
                 type="submit"
                 value="Sign in"
-                onClick={this.handleSignInSubmit}
               />
             </div>
+          </form>
             <div className="lh-copy mt3">
               <p className="f6 link dim black db pointer" onClick={() => handleRouteChange('register')}>Register</p>
             </div>
