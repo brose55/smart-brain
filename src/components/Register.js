@@ -23,7 +23,8 @@ class Register extends Component {
     this.setState({password: event.target.value})
   }
 
-  handleRegisterSubmit = () => {
+  handleRegisterSubmit = (event) => {
+    event.preventDefault();
     fetch('https://cryptic-falls-77467.herokuapp.com/register', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
@@ -47,6 +48,8 @@ class Register extends Component {
       <article className="br3 ba b--black-10 mmv4 w-100 w-50-m w-25-1 mw6 shadow-5 center">
         <main className="pa4 black-80">
           <div className="measure">
+            <form onSubmit={this.handleRegisterSubmit}>
+
             <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
               <legend className="f1 fw6 ph0 mh0">Register</legend>
               <div className="name mt3">
@@ -85,9 +88,9 @@ class Register extends Component {
                 className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
                 type="submit"
                 value="Register"
-                onClick={this.handleRegisterSubmit}
               />
             </div>
+          </form>
           </div>
         </main>
       </article>
