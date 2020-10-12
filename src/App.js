@@ -127,6 +127,7 @@ class App extends Component {
 					<Navigation
 						handleRouteChange={this.handleRouteChange}
 						isSignedIn={this.state.isSignedIn}
+            route={this.state.route}
 					/>
 				</header>
         {
