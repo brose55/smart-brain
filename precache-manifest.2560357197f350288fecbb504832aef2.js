@@ -12,15 +12,15 @@ self.__precacheManifest = [
     "url": "/smart-brain/static/js/runtime~main.e63bf16e.js"
   },
   {
-    "revision": "b3b650ecabd915933d6c",
+    "revision": "e00889595aab98c1de17",
     "url": "/smart-brain/static/css/2.8216a9db.chunk.css"
   },
   {
-    "revision": "b3b650ecabd915933d6c",
-    "url": "/smart-brain/static/js/2.aed92d72.chunk.js"
+    "revision": "e00889595aab98c1de17",
+    "url": "/smart-brain/static/js/2.e310d309.chunk.js"
   },
   {
-    "revision": "8b90defb3c6758140c3b2ce2a2066bf3",
+    "revision": "beefa8eef5fd7aa9cbf104b9728435d8",
     "url": "/smart-brain/index.html"
   }
 ];
