@@ -1,25 +1,23 @@
 {
   "name": "smart-brain",
-  "homepage": "https://brose55.github.io/smart-brain/",
-  "version": "0.1.0",
+  "homepage": "https://react-smartbrain.herokuapp.com/",
+  "version": "0.2.0",
   "private": false,
   "dependencies": {
     "ajv": "^6.12.6",
     "clarifai": "^2.9.1",
     "flatted": "^2.0.2",
-    "gh-pages": "^3.1.0",
     "kleur": "^3.0.3",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-particles-js": "^2.7.1",
     "react-scripts": "^2.1.3",
     "react-tilt": "^0.1.4",
+    "serve": "^11.3.2",
     "tachyons": "^4.12.0"
   },
   "scripts": {
-    "pre-deploy": "yarn run build",
-    "deploy": "gh-pages -d build",
-    "start": "react-scripts start",
+    "start": "serve -s build",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
