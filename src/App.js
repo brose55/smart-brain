@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Particles from 'react-particles-js';
 import Logo from './components/Logo.js';
 import SignIn from './components/SignIn';
 import Register from './components/Register'
