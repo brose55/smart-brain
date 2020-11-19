@@ -9,7 +9,7 @@ import ImageLinkForm from './components/ImageLinkForm';
 import FacialRecognition from './components/FacialRecognition';
 import './App.css';
 
-// say something about config particles
+// configures the moving background 
 const particlesOptions = {
   particles: {
     number: {

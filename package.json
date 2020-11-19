@@ -2,7 +2,7 @@
   "name": "smart-brain",
   "homepage": "https://brose55.github.io/smart-brain/",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "dependencies": {
     "ajv": "^6.12.6",
     "clarifai": "^2.9.1",
