@@ -9,19 +9,6 @@ import ImageLinkForm from './components/ImageLinkForm';
 import FacialRecognition from './components/FacialRecognition';
 import './App.css';
 
-// configures the moving background 
-const particlesOptions = {
-  particles: {
-    number: {
-      value: 60,
-      density: {
-        enable: true,
-        value_area: 800
-      }
-    }
-  }
-};
-
 const initialState = {
   input: '',
   imageUrl: '',
@@ -118,10 +105,6 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Particles
-          className='particles'
-          params={particlesOptions}
-        />
 				<header className="header">
 					<Logo />
 					<Navigation
