@@ -1,0 +1,41 @@
+{
+  "fpsLimit": 60,
+  "background": {
+    "opacity": true
+  },
+  "backgroundMode": {
+    "enable": true
+  },
+  "particles": {
+    "color": {
+      "value": ["#d219fc", "#00c613"]
+    },
+    "links": {
+      "color": "#FFF",
+      "enable": true
+    },
+    "move": {
+      "enable": true,
+      "speed": 2
+    },
+    "size": {
+      "value": 3,
+      "random": {
+        "enable": true,
+        "minimumValue": 1
+      },
+      "animation": {
+        "enable": true,
+        "speed": 2.5,
+        "minimumValue": 1
+      }
+    },
+    "opacity": {
+      "value": 0.8,
+      "random": {
+        "enable": true,
+        "minimumValue": 0.4
+      }
+    }
+  }
+}
