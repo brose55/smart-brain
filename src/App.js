@@ -6,6 +6,8 @@ import Navigation from './components/Navigation';
 import Rank from './components/Rank.js';
 import ImageLinkForm from './components/ImageLinkForm';
 import FacialRecognition from './components/FacialRecognition';
+import Particles from 'react-tsparticles';
+import particlesOptions from './particles.json';
 import './App.css';
 
 const initialState = {
@@ -26,7 +28,7 @@ const initialState = {
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = initialState
+    this.state = initialState;
   }
 
   loadUser = (data) => {
@@ -104,6 +106,14 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+      <Particles
+        id="tsparticles"
+        style={{
+          position: "absolute",
+        }}
+        width="100wh"
+        height="100vh"
+        options={particlesOptions} />
 				<header className="header">
 					<Logo />
 					<Navigation
